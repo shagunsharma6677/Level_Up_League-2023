@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+import React from "react";
+import { Chat } from "../components/Chat/Chat";
+
+
+const Home = () => {
+  return (
+    <div className="home-page">
+      <Chat />
+    </div>
+  );
+};
+
+export default Home;
+=======
 import style from "./Home.module.css"; 
 
 const Home = () => {
@@ -15,3 +30,4 @@ const Home = () => {
 }
 
 export default Home 
+>>>>>>> 159844ae629535db3e06334ac82d802e0a3c17c0
