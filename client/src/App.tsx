@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { Room } from "./pages/Room";
+import Game from "./pages/Gaming/Game";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} /> 
         <Route path="/room" element={<Room />} /> 
-
+        <Route path="/gaming" element={<Game />} /> 
       </Routes>
     </div>
   );
