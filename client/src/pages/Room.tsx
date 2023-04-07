@@ -29,6 +29,14 @@ export const Room = () => {
 						<TabPanel>
 							<VStack gap={6}>
 								<Input
+									placeholder="User Name"
+									size="md"
+									w={"80%"}
+									color="white"
+									fontSize="2xl"
+									alignItems={"center"}
+								/>
+								<Input
 									placeholder="Secret Room Key"
 									size="md"
 									w={"80%"}
@@ -48,6 +56,14 @@ export const Room = () => {
 						</TabPanel>
 						<TabPanel>
 							<VStack gap={6}>
+								<Input
+									placeholder="User Name"
+									size="md"
+									w={"80%"}
+									color="white"
+									fontSize="2xl"
+									alignItems={"center"}
+								/>
 								<Input
 									placeholder="Enter Room Name"
 									size="md"
