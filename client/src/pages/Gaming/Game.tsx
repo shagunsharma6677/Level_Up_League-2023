@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Timer from "./Timer";
 import { getDataFromApi } from "./api";
 import { useToast } from "@chakra-ui/react";
+import ChatBox from "../../components/ChatBox/ChatBox";
+import { AppContext } from "../../context/context";
+// import { ChatBox } from "../../components/ChatBox/ChatBox";
+
 // import dictionaryEn from "dictionary-en";
 
 const Game = () => {
-  // const initialState=[] 
-  const toast = useToast(); 
-  const [score, setScore] = useState<number>(0); 
+  // const initialState=[]
+  const toast = useToast();
+  const [score, setScore] = useState<number>(0);
   const [input, setInput] = useState<string>("");
+  const [username, setName] = useState<string>("");
+  const [room, setRoom] = useState<string>("");
   const [container, setContainer] = useState<string[]>([]);
   const [box, setBox] = useState<string[]>();
   const [bt1, setBt1] = useState<string>("");
@@ -17,9 +23,14 @@ const Game = () => {
   const [bt4, setBt4] = useState<string>("");
   const [bt5, setBt5] = useState<string>("");
   const [bt6, setBt6] = useState<string>("");
+  const {chatRoom} = useContext(AppContext)
+
+  console.log(chatRoom)
+
+ 
 
   const handleCheck = async () => {
-    let a = input.trim().split(""); 
+    let a = input.trim().split("");
     if (a.length > 1) {
       let res: string = await getDataFromApi(input);
       let x = res.toString();
@@ -28,42 +39,39 @@ const Game = () => {
       if (x == input.toLowerCase()) {
         let data: string = res.toString();
         console.log("see");
-        if(!container.includes(data)){
-          setScore((prev)=>prev+ Number(data.length)); 
-          setContainer([...container, data]); 
-          setInput(""); 
-        }
-        else{
+        if (!container.includes(data)) {
+          setScore((prev) => prev + Number(data.length));
+          setContainer([...container, data]);
+          setInput("");
+        } else {
           toast({
-            position: 'top',
-            title: 'Already On Board ',
+            position: "top",
+            title: "Already On Board ",
             // description: "Is Included",
-            status: 'error',
-            duration: 2000, 
-          })
-          setInput(""); 
+            status: "error",
+            duration: 2000,
+          });
+          setInput("");
         }
-      }
-      else{
+      } else {
         toast({
-          position: 'top',
-          title: 'Error',
+          position: "top",
+          title: "Error",
           description: "Does not Exist",
-          status: 'warning',
-          duration: 2000, 
-        })
-        setInput(""); 
+          status: "warning",
+          duration: 2000,
+        });
+        setInput("");
       }
       console.log(res);
-    }
-    else{
+    } else {
       toast({
-        position: 'top',
-        title: 'Error',
+        position: "top",
+        title: "Error",
         description: "length should be greater",
-        status: 'info', 
-        duration: 2000, 
-      }) 
+        status: "info",
+        duration: 2000,
+      });
     }
   };
 
@@ -100,9 +108,15 @@ const Game = () => {
 
       if (!randomLetters.includes(randomLetter)) {
         randomLetters.push(randomLetter);
-      }  
+      }
     }
     showtime(randomLetters);
+    const name = localStorage.getItem("username")||""
+    const Room = localStorage.getItem("room")||""
+    setName(name);
+    setRoom(Room);
+    // console.log(localStorage.getItem("username"))
+    // console.log(localStorage.getItem("room"))
   }, []);
   // const handeltest = () => {
   //   dictionaryEn(function (error, input) {
@@ -113,77 +127,80 @@ const Game = () => {
   // };
 
   return (
-    <div className="flex min-h-screen w-full">
+    <div className="flex w-full min-h-screen">
       <div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
-        <div className="h-10  fixed top-0 w-9/12 text-center text-2xl text-white rounded-xl flex justify-around">
-          <Timer /> 
-          Score: {score} 
+        <div className="fixed top-0 flex justify-around w-9/12 h-10 text-2xl text-center text-white rounded-xl">
+          <Timer />
+          Score: {score}
         </div>
-        <div className="h-36 bg-amber-500 rounded-xl border-yellow-300 border-x-8 border-y-2 p-2 flex gap-4 flex-wrap ">
+        <div className="flex flex-wrap gap-4 p-2 border-yellow-300 h-36 bg-amber-500 rounded-xl border-x-8 border-y-2 ">
           {container?.map((e: string, index: number) => (
-            <h1 key={index} className="text-white bg-lime-500 rounded-xl p-4 h-10 flex justify-center items-center bg-gradient-to-r from-pink-500 to-blue-500"> 
+            <h1
+              key={index}
+              className="flex items-center justify-center h-10 p-4 text-white bg-lime-500 rounded-xl bg-gradient-to-r from-pink-500 to-blue-500"
+            >
               {e}
-            </h1> 
-          ))} 
+            </h1>
+          ))}
         </div>
-        <div className="h-74 p-10 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl border-yellow-300 border-x-8 border-y-2 p-2">
-          <div className="h-12 rounded-md border flex text-2xl justify-center items-center tracking-wider">
+        <div className="p-2 p-10 border-yellow-300 h-74 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl border-x-8 border-y-2">
+          <div className="flex items-center justify-center h-12 text-2xl tracking-wider border rounded-md">
             {input}
           </div>
-          <div className="p-2 grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 p-2">
             <button
               onClick={() => setInput("")}
-              className="h-14 text-2xl bg-gradient-to-r from-yellow-400 to-blue-500 shadow-lg shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
             >
               Clear
             </button>
             <button
               onClick={handleback}
-              className="h-14 text-2xl bg-gradient-to-r from-yellow-400 to-blue-500 shadow-lg shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
             >
               Back
             </button>
             <button
               onClick={handleCheck}
-              className="h-14 text-2xl bg-gradient-to-r from-yellow-400 to-blue-500 shadow-lg shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
             >
               Enter
             </button>
           </div>
-          <div className="p-4 grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 p-4">
             <button
               onClick={() => handleinp(bt1)}
-              className="h-14 bg-cyan-500 shadow-lg text-2xl shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
             >
               {bt1}
             </button>
             <button
               onClick={() => handleinp(bt2)}
-              className="h-14 bg-cyan-500 shadow-lg text-2xl shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
             >
               {bt2}
             </button>
             <button
               onClick={() => handleinp(bt3)}
-              className="h-14 bg-cyan-500 shadow-lg text-2xl shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
             >
               {bt3}
             </button>
             <button
               onClick={() => handleinp(bt4)}
-              className="h-14 bg-cyan-500 shadow-lg text-2xl shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
             >
               {bt4}
             </button>
             <button
               onClick={() => handleinp(bt5)}
-              className="h-14 bg-cyan-500 shadow-lg text-2xl shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
             >
               {bt5}
             </button>
             <button
               onClick={() => handleinp(bt6)}
-              className="h-14 bg-cyan-500 shadow-lg text-2xl shadow-cyan-100/50 rounded-xl border-l-8"
+              className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
             >
               {bt6}
             </button>
@@ -191,7 +208,9 @@ const Game = () => {
           {/* <button onClick={handeltest}>Enter</button> */}
         </div>
       </div>
-      <div className="w-1/5 border-red-800 bg-[url('https://media1.giphy.com/media/tNt8ZSSrwNHzQcPABV/giphy.webp?cid=ecf05e47vc3hc3bylzxufiiykdoa7ix8iqn4cvtzagbdz12j&rid=giphy.webp&ct=g')]"></div>
+      <div className="w-1/5 border-red-800 bg-[url('https://media1.giphy.com/media/tNt8ZSSrwNHzQcPABV/giphy.webp?cid=ecf05e47vc3hc3bylzxufiiykdoa7ix8iqn4cvtzagbdz12j&rid=giphy.webp&ct=g')]">
+        <ChatBox username={username} room={room} />
+      </div>
     </div>
   );
 };
