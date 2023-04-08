@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 export const Room = () => {
 	return (
-		<div className="min-h-screen  bg-cover bg-no-repeat bg-center bg-[url('https://images.pexels.com/photos/11816425/pexels-photo-11816425.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
+		<div className="min-h-screen w-full bg-cover bg-no-repeat bg-center bg-[url('https://images.pexels.com/photos/11816425/pexels-photo-11816425.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')]">
 			<div
 				className="grid py-40  text-center	m-auto text-2xl h-screen"
 				id={style.main_room}

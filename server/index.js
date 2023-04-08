@@ -3,10 +3,12 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
+const { userRouter } = require("./routes/user.routes");
+const { connection } = require("./db");
 app.use(cors());
-
-
+app.use(express.json())
 const server = http.createServer(app);
+app.use("/users", userRouter)
 
 const io = new Server(server, {
   cors: {
@@ -25,7 +27,7 @@ io.on("connection", (socket) => {
 
   socket.on("send_message", (data) => {
     socket.to(data.room).emit("receive_message", data);
-    console.log("send_message",data)
+    console.log("send_message", data)
   });
 
   socket.on("disconnect", () => {
@@ -35,7 +37,7 @@ io.on("connection", (socket) => {
 
 server.listen(3001, async () => {
   try {
-    // await connection;
+    await connection;
     console.log("Serveer connected to database");
   } catch (err) {
     console.log(err);
