@@ -26,7 +26,7 @@ const Timer = () => {
   const seconds = (time % 60).toString().padStart(2, "0");
   const formattedTime = `${minutes}:${seconds}`;
 
-  return <div>--- {formattedTime} --- </div>;
+  return <div> Time: {formattedTime} </div>;
 };
 
 export default Timer;

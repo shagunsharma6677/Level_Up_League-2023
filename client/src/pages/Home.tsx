@@ -1,23 +1,8 @@
-<<<<<<< HEAD
-import React from "react";
-import { Chat } from "../components/Chat/Chat";
-
-
-const Home = () => {
-  return (
-    <div className="home-page">
-      <Chat />
-    </div>
-  );
-};
-
-export default Home;
-=======
 import style from "./Home.module.css"; 
 
 const Home = () => {
   return (
-    <div className="min-h-screen w-full bg-cover bg-center bg-[url('https://images.pexels.com/photos/1111597/pexels-photo-1111597.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] text-white">
+    <div className="min-h-screen w-full overflow-hidden bg-cover bg-center bg-[url('https://images.pexels.com/photos/1111597/pexels-photo-1111597.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] text-white">
       <div className="shadow-md ">
             <h1 className="text-center py-20 text-6xl	" >Word Paradise</h1>
             <div className="grid py-28 gap-10 text-center	" >
@@ -29,5 +14,4 @@ const Home = () => {
   )
 }
 
-export default Home 
->>>>>>> 159844ae629535db3e06334ac82d802e0a3c17c0
+export default Home  
