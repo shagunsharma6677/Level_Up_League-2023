@@ -17,7 +17,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { UserLogin, UserRegister } from "../utils";
 import axios from "axios";
 import { AppContext } from "../context/context";
-const socket = io("http://localhost:3001");
+
+export const socket = io("http://localhost:3001");
 export const Room = () => {
   // const [username, setUsername] = useState<String>("");
   //   const [room, setRoom] = useState<String>("");
@@ -27,7 +28,7 @@ export const Room = () => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [room, setRoom] = useState<string>("");
-  const {isStatus,chatRoom} = useContext(AppContext)
+  const { isStatus, chatRoom } = useContext(AppContext);
 
   const joinRoom = () => {
     if (name !== "" && room !== "") {
@@ -36,8 +37,8 @@ export const Room = () => {
     }
   };
   const handleLogin = (): void => {
-    localStorage.setItem("username" , name)
-    localStorage.setItem("room", room)
+    localStorage.setItem("username", name);
+    localStorage.setItem("room", room);
     const payload: UserLogin = {
       password,
       email,
@@ -48,9 +49,10 @@ export const Room = () => {
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
-          sessionStorage.setItem("username", res.data.data);
-          isStatus()
-          joinRoom();
+          localStorage.setItem("username", res.data.data);
+          // socket.emit("join_room", room);
+          // navigate("/gaming");
+          joinRoom()
           //   navigate("/room", { replace: true });
         } else if (res.status === 201) {
           alert(res.data.message);

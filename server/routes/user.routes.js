@@ -7,7 +7,7 @@ userRouter.post("/register", async (req, res) => {
     const payload = req.body
     console.log(payload)
 
-    const { name, password, email } = payload
+    const { name, password, email,isOnline } = payload
     try {
         if (name != undefined && password != undefined && email != undefined) {
 

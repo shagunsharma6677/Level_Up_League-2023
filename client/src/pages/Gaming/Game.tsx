@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import Timer from "./Timer";
 import { getDataFromApi } from "./api";
 import { useToast } from "@chakra-ui/react";
-import ChatBox from "../../components/ChatBox/ChatBox";
+// import ChatBox from "../../components/ChatBox/ChatBox";
 import { AppContext } from "../../context/context";
+import ChatBox from "../ChatBox";
 // import { ChatBox } from "../../components/ChatBox/ChatBox";
 
 // import dictionaryEn from "dictionary-en";
@@ -26,6 +27,12 @@ const Game = () => {
   const {chatRoom} = useContext(AppContext)
 
   console.log(chatRoom)
+  useEffect(() => {
+    const name = localStorage.getItem("username")||""
+    const Room = localStorage.getItem("room")||""
+    setName(name);
+    setRoom(Room);
+  },[])
 
  
 
@@ -111,10 +118,10 @@ const Game = () => {
       }
     }
     showtime(randomLetters);
-    const name = localStorage.getItem("username")||""
-    const Room = localStorage.getItem("room")||""
-    setName(name);
-    setRoom(Room);
+    // const name = localStorage.getItem("username")||""
+    // const Room = localStorage.getItem("room")||""
+    // setName(name);
+    // setRoom(Room);
     // console.log(localStorage.getItem("username"))
     // console.log(localStorage.getItem("room"))
   }, []);
@@ -209,7 +216,7 @@ const Game = () => {
         </div>
       </div>
       <div className="w-1/5 border-red-800 bg-[url('https://media1.giphy.com/media/tNt8ZSSrwNHzQcPABV/giphy.webp?cid=ecf05e47vc3hc3bylzxufiiykdoa7ix8iqn4cvtzagbdz12j&rid=giphy.webp&ct=g')]">
-        <ChatBox username={username} room={room} />
+       {  <ChatBox username={username} room={room} />}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 // import Login from "./pages/Login";
 // import Register from "./pages/Register";
 import { Room } from "./pages/Room";
-import { Chat } from "./components/Chat/Chat";
+// import { Chat } from "./components/Chat/Chat";
 import Game from "./pages/Gaming/Game";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
         {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/room" element={<Room />} />
         <Route path="/gaming" element={<Game />} />
-        <Route path="/chat" element={<Chat />} />
+        {/* <Route path="/chat" element={<Chat />} /> */}
       </Routes>
     </div>
   );

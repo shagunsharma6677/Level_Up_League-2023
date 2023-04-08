@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import ScrollToBottom from "react-scroll-to-bottom";
-import { socket } from "../../pages/Room"
+// import { socket } from "../../pages/Room"
 // import {socket}from "../Chat/Chat"
+import {socket} from "./Room"
 
 type ChatBoxType = {
   username: String;
@@ -31,7 +32,7 @@ function ChatBox({ username, room }: ChatBoxType) {
       };
 
       await socket.emit("send_message", messageData);
-      setMessageList((list) => [...list, messageData]);
+      setMessageList(() => [...messageList, messageData]);
       // setMessageList([...messageList, messageData]);
       console.log("sending",messageList)
       setCurrentMessage("");
@@ -42,7 +43,7 @@ function ChatBox({ username, room }: ChatBoxType) {
   useEffect(() => {
     socket.on("receive_message", (data) => {
       // setMessageList([...messageList, data]);
-      setMessageList((list) => [...list, data]);
+      setMessageList((list) => [...messageList, data]);
       console.log("received", messageList);
     });
   }, [ourSocket,messageList]);
@@ -89,4 +90,4 @@ function ChatBox({ username, room }: ChatBoxType) {
   );
 }
 
-
+export default ChatBox;
