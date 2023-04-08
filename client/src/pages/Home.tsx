@@ -1,3 +1,6 @@
+
+import React from "react";
+import { Chat } from "../components/Chat/Chat"; 
 import style from "./Home.module.css"; 
 
 const Home = () => {
@@ -13,5 +16,6 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home  
+ 
+export default Home   
+ 
