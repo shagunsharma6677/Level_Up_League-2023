@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import Timer from "./Timer";
 import { getDataFromApi } from "./api";
+import { useToast } from "@chakra-ui/react";
 // import dictionaryEn from "dictionary-en";
 
 const Game = () => {
-  // const initialState=[]
+  // const initialState=[] 
+  const toast = useToast(); 
+  const [score, setScore] = useState<number>(0); 
   const [input, setInput] = useState<string>("");
   const [container, setContainer] = useState<string[]>([]);
   const [box, setBox] = useState<string[]>();
@@ -26,16 +29,41 @@ const Game = () => {
         let data: string = res.toString();
         console.log("see");
         if(!container.includes(data)){
-          setContainer([...container, data]);
+          setScore((prev)=>prev+ Number(data.length)); 
+          setContainer([...container, data]); 
+          setInput(""); 
         }
         else{
-          alert("already exits")
+          toast({
+            position: 'top',
+            title: 'Already On Board ',
+            // description: "Is Included",
+            status: 'error',
+            duration: 2000, 
+          })
+          setInput(""); 
         }
+      }
+      else{
+        toast({
+          position: 'top',
+          title: 'Error',
+          description: "Does not Exist",
+          status: 'warning',
+          duration: 2000, 
+        })
+        setInput(""); 
       }
       console.log(res);
     }
     else{
-      alert("length should be greater")
+      toast({
+        position: 'top',
+        title: 'Error',
+        description: "length should be greater",
+        status: 'info', 
+        duration: 2000, 
+      }) 
     }
   };
 
@@ -61,7 +89,7 @@ const Game = () => {
   };
   console.log(container, "contsainer");
   useEffect(() => {
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVW".split("");
 
     const randomLetters: string[] = [];
 
@@ -72,7 +100,7 @@ const Game = () => {
 
       if (!randomLetters.includes(randomLetter)) {
         randomLetters.push(randomLetter);
-      }
+      }  
     }
     showtime(randomLetters);
   }, []);
@@ -87,17 +115,16 @@ const Game = () => {
   return (
     <div className="flex min-h-screen w-full">
       <div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
-        <div className="h-10 fixed top-0 w-9/12 text-center text-2xl text-white rounded-xl ">
-          <Timer />
+        <div className="h-10  fixed top-0 w-9/12 text-center text-2xl text-white rounded-xl flex justify-around">
+          <Timer /> 
+          Score: {score} 
         </div>
-        <div className="h-36 bg-amber-500 rounded-xl border-yellow-300 border-x-8 border-y-2 p-2">
+        <div className="h-36 bg-amber-500 rounded-xl border-yellow-300 border-x-8 border-y-2 p-2 flex gap-4 flex-wrap ">
           {container?.map((e: string, index: number) => (
-            <h1 key={index} className="text-white">
-              {" "}
+            <h1 key={index} className="text-white bg-lime-500 rounded-xl p-4 h-10 flex justify-center items-center bg-gradient-to-r from-pink-500 to-blue-500"> 
               {e}
-            </h1>
-          ))}
-          --
+            </h1> 
+          ))} 
         </div>
         <div className="h-74 p-10 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl border-yellow-300 border-x-8 border-y-2 p-2">
           <div className="h-12 rounded-md border flex text-2xl justify-center items-center tracking-wider">
