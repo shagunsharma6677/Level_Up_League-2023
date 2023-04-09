@@ -7,7 +7,7 @@ userRouter.post("/register", async (req, res) => {
     const payload = req.body
     console.log(payload)
 
-    const { name, password, email,isOnline } = payload
+    const { name, password, email, isOnline } = payload
     try {
         if (name != undefined && password != undefined && email != undefined) {
 
@@ -18,7 +18,7 @@ userRouter.post("/register", async (req, res) => {
             }
 
             const newUser = await new UserModel(payload);
-            newUser.save();
+            await newUser.save();
             res.status(200).send({ message: "User has been created successfully" });
         } else {
             res.status(201).send({ message: "Please provide all details" });

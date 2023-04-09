@@ -24,9 +24,9 @@ const Game = () => {
   const [bt4, setBt4] = useState<string>("");
   const [bt5, setBt5] = useState<string>("");
   const [bt6, setBt6] = useState<string>("");
-  const {chatRoom} = useContext(AppContext)
+  const {chatRoom,isStatus} = useContext(AppContext)
 
-  console.log(chatRoom)
+  console.log(chatRoom,"xontext from gaming room")
   useEffect(() => {
     const name = localStorage.getItem("username")||""
     const Room = localStorage.getItem("room")||""
@@ -34,7 +34,7 @@ const Game = () => {
     setRoom(Room);
   },[])
 
- 
+
 
   const handleCheck = async () => {
     let a = input.trim().split("");
