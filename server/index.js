@@ -8,6 +8,7 @@ const { connection } = require("./db");
 const { ScoreModel } = require("./model/score.model");
 app.use(cors());
 app.use(express.json());
+require('dotenv').config()
 app.use("/users", userRouter);
 
 app.post("/score", async (req, res) => {
@@ -40,7 +41,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: `${process.env.FE}`,
     methods: ["GET", "POST"],
   },
 });
@@ -63,12 +64,12 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3001, async () => {
+server.listen(process.env.PORT, async () => {
   try {
     await connection;
     console.log("Serveer connected to database");
   } catch (err) {
     console.log(err);
   }
-  console.log("Server running at http://localhost:3001");
+  console.log("Server running");
 });

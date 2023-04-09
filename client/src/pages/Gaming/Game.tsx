@@ -201,7 +201,7 @@ const Game = () => {
     <div className="flex w-full min-h-screen">
       {start == false ? (
         <div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
-          <div className="bg-gradient-to-r from-indigo-500 p-6 ">
+          <div className="p-6 bg-gradient-to-r from-indigo-500 ">
             Wating for Other Player...{" "}
           </div>
         </div>
@@ -292,7 +292,7 @@ const Game = () => {
           {start ? "" : "Start"}
         </button>
         {<ChatBox username={username} room={room} />}
-        <div className="box-border h-32 w-full my-2 p-4 border-4">
+        <div className="box-border w-full h-32 p-4 my-2 border-4">
           Winner of the game:
         </div>
 
