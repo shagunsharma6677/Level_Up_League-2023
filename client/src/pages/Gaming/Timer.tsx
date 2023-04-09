@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from "react";
+// import { useDisclosure } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react"; 
 
-const Timer = () => {
-  const [time, setTime] = useState(90);
+type Timetype ={
+  endgame: () => void;
+}
+
+const Timer = (props:Timetype) => { 
+  const [time, setTime] = useState(10);
+  // const { isOpen, onOpen, onClose } = useDisclosure() ; 
 
   useEffect(() => {
     // Start the timer
@@ -12,7 +18,7 @@ const Timer = () => {
     // Stop the timer and reset the time when it reaches 0
     if (time === 0) {
       clearInterval(timer);
-      setTime(90);
+      props.endgame(); 
     }
 
     // Cleanup function to stop the timer when the component unmounts
@@ -25,6 +31,10 @@ const Timer = () => {
     .padStart(2, "0");
   const seconds = (time % 60).toString().padStart(2, "0");
   const formattedTime = `${minutes}:${seconds}`;
+
+  if(time===0){
+    return <div>Time: 0</div> 
+  }
 
   return <div> Time: {formattedTime} </div>;
 };

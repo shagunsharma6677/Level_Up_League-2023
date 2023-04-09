@@ -1,7 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import Timer from "./Timer";
 import { getDataFromApi } from "./api";
-import { useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 // import ChatBox from "../../components/ChatBox/ChatBox";
 import { AppContext } from "../../context/context";
 import ChatBox from "../ChatBox";
@@ -10,9 +21,11 @@ import ChatBox from "../ChatBox";
 // import dictionaryEn from "dictionary-en";
 
 const Game = () => {
+  const [done, setDone] = useState<boolean>(false);
+  const [start, setStart] = useState<boolean>(false);
   // const initialState=[]
   const toast = useToast();
-  const [score, setScore] = useState<number>(0);
+  const [score, setScore] = useState<number>(0); 
   const [input, setInput] = useState<string>("");
   const [username, setName] = useState<string>("");
   const [room, setRoom] = useState<string>("");
@@ -24,17 +37,21 @@ const Game = () => {
   const [bt4, setBt4] = useState<string>("");
   const [bt5, setBt5] = useState<string>("");
   const [bt6, setBt6] = useState<string>("");
-  const {chatRoom,isStatus} = useContext(AppContext)
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
+  const { chatRoom, isStatus } = useContext(AppContext);
 
-  console.log(chatRoom,"xontext from gaming room")
+  if (chatRoom == "2") {
+    setStart(true);
+    console.log(start);
+  }
+
+  console.log(chatRoom, "xontext from gaming room", start);
   useEffect(() => {
-    const name = localStorage.getItem("username")||""
-    const Room = localStorage.getItem("room")||""
+    const name = localStorage.getItem("username") || "";
+    const Room = localStorage.getItem("room") || "";
     setName(name);
     setRoom(Room);
-  },[])
-
-
+  }, []);
 
   const handleCheck = async () => {
     let a = input.trim().split("");
@@ -91,7 +108,7 @@ const Game = () => {
     a.pop();
     let q = a.join("");
     setInput(q);
-  };
+  }; 
 
   const showtime = (e: string[]) => {
     setBt1(e[0]);
@@ -116,14 +133,14 @@ const Game = () => {
       if (!randomLetters.includes(randomLetter)) {
         randomLetters.push(randomLetter);
       }
-    }
-    showtime(randomLetters);
+    } 
+    showtime(randomLetters); 
     // const name = localStorage.getItem("username")||""
     // const Room = localStorage.getItem("room")||""
     // setName(name);
     // setRoom(Room);
     // console.log(localStorage.getItem("username"))
-    // console.log(localStorage.getItem("room"))
+    // console.log(localStorage.getItem("room")) 
   }, []);
   // const handeltest = () => {
   //   dictionaryEn(function (error, input) {
@@ -131,95 +148,114 @@ const Game = () => {
   //     console.log(input);
   //     // To do: use `en` somehow
   //   });
-  // };
+  // }; 
 
-  return (
-		<div className="flex w-full min-h-screen">
-			<div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
-				<div className="fixed top-0 flex justify-around w-9/12 h-10 text-2xl text-center text-white rounded-xl">
-					<Timer />
-					Score: {score}
-				</div>
-				<div className="flex flex-wrap gap-4 p-2 border-yellow-300 h-36 bg-amber-500 rounded-xl border-x-8 border-y-2 ">
-					{container?.map((e: string, index: number) => (
-						<h1
-							key={index}
-							className="flex items-center justify-center h-10 p-4 text-white bg-lime-500 rounded-xl bg-gradient-to-r from-pink-500 to-blue-500"
-						>
-							{e}
-						</h1>
-					))}
-				</div>
-				<div className="p-2 p-10 border-yellow-300 h-74 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl border-x-8 border-y-2">
-					<div className="flex items-center justify-center h-12 text-2xl tracking-wider border rounded-md">
-						{input}
-					</div>
-					<div className="grid grid-cols-3 gap-4 p-2">
-						<button
-							onClick={() => setInput("")}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
-						>
-							Clear
-						</button>
-						<button
-							onClick={handleback}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
-						>
-							Back
-						</button>
-						<button
-							onClick={handleCheck}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
-						>
-							Enter
-						</button>
-					</div>
-					<div className="grid grid-cols-3 gap-4 p-4">
-						<button
-							onClick={() => handleinp(bt1)}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
-						>
-							{bt1}
-						</button>
-						<button
-							onClick={() => handleinp(bt2)}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
-						>
-							{bt2}
-						</button>
-						<button
-							onClick={() => handleinp(bt3)}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
-						>
-							{bt3}
-						</button>
-						<button
-							onClick={() => handleinp(bt4)}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
-						>
-							{bt4}
-						</button>
-						<button
-							onClick={() => handleinp(bt5)}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
-						>
-							{bt5}
-						</button>
-						<button
-							onClick={() => handleinp(bt6)}
-							className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
-						>
-							{bt6}
-						</button>
-					</div>
-					{/* <button onClick={handeltest}>Enter</button> */}
-				</div>
-			</div>
-			<div className="w-1/5 border-red-800 bg-[url('https://media1.giphy.com/media/tNt8ZSSrwNHzQcPABV/giphy.webp?cid=ecf05e47vc3hc3bylzxufiiykdoa7ix8iqn4cvtzagbdz12j&rid=giphy.webp&ct=g')] p-2">
-				{<ChatBox username={username} room={room} />}
-			</div>
-		</div>
-	);
+  const endgame = async () => {
+    setDone(!done); 
+    // let finalscore = await 
+  };
+
+  return ( 
+        <div className="flex w-full min-h-screen">
+          {start == false ? (
+            <div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
+              <div className="bg-gradient-to-r from-indigo-500 p-6 ">
+                Wating for Other Player...{" "}
+              </div>
+            </div>
+          ) : (
+            <div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
+              <div className="fixed top-0 flex justify-around w-9/12 h-10 text-2xl text-center text-white rounded-xl">
+                <Timer endgame={endgame} />
+                Score: {score}
+              </div>
+              <div className="flex flex-wrap gap-4 p-2 border-yellow-300 h-36 bg-amber-500 rounded-xl border-x-8 border-y-2 ">
+                {container?.map((e: string, index: number) => (
+                  <h1
+                    key={index}
+                    className="flex items-center justify-center h-10 p-4 text-white bg-lime-500 rounded-xl bg-gradient-to-r from-pink-500 to-blue-500"
+                  >
+                    {e}
+                  </h1>
+                ))}
+              </div>
+              <div className="p-2 p-10 border-yellow-300 h-74 bg-gradient-to-r from-violet-500 to-fuchsia-500 rounded-xl border-x-8 border-y-2">
+                <div className="flex items-center justify-center h-12 text-2xl tracking-wider border rounded-md">
+                  {input}
+                </div>
+                <div className="grid grid-cols-3 gap-4 p-2">
+                  <button
+                    onClick={() => setInput("")}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={handleback}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleCheck}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-gradient-to-r from-yellow-400 to-blue-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    Enter
+                  </button>
+                </div>
+                <div className="grid grid-cols-3 gap-4 p-4">
+                  <button
+                    onClick={() => handleinp(bt1)}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    {bt1}
+                  </button>
+                  <button
+                    onClick={() => handleinp(bt2)}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    {bt2}
+                  </button>
+                  <button
+                    onClick={() => handleinp(bt3)}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    {bt3}
+                  </button>
+                  <button
+                    onClick={() => handleinp(bt4)}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    {bt4}
+                  </button>
+                  <button
+                    onClick={() => handleinp(bt5)}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    {bt5}
+                  </button>
+                  <button
+                    onClick={() => handleinp(bt6)}
+                    className="text-2xl border-l-8 shadow-lg h-14 bg-cyan-500 shadow-cyan-100/50 rounded-xl"
+                  >
+                    {bt6}
+                  </button>
+                </div>
+                {/* <button onClick={handeltest}>Enter</button> */}
+              </div>
+            </div>
+          )}
+          <div className="w-1/5 border-red-800 bg-[url('https://media1.giphy.com/media/tNt8ZSSrwNHzQcPABV/giphy.webp?cid=ecf05e47vc3hc3bylzxufiiykdoa7ix8iqn4cvtzagbdz12j&rid=giphy.webp&ct=g')] p-2">
+            <button disabled={start === true} onClick={() => setStart(!start)}>
+              {start ? "" : "Start"}
+            </button>
+            {<ChatBox username={username} room={room} />} 
+            <div className="box-border h-32 w-full my-2 p-4 border-4">
+              Winner of the game: 
+            </div>
+          </div>
+        </div> 
+  );
 };
 
 export default Game;
