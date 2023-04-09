@@ -7,8 +7,8 @@ const { userRouter } = require("./routes/user.routes");
 const { connection } = require("./db");
 app.use(cors());
 app.use(express.json())
-const server = http.createServer(app);
 app.use("/users", userRouter)
+const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
