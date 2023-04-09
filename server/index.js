@@ -41,7 +41,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: `${process.env.FE}`,
+    origin: `https://client-theta-eight.vercel.app/`,
     methods: ["GET", "POST"],
   },
 });
@@ -64,7 +64,7 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.PORT, async () => {
+server.listen(3001, async () => {
   try {
     await connection;
     console.log("Serveer connected to database");

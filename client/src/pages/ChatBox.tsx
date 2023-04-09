@@ -49,25 +49,25 @@ function ChatBox({ username, room }: ChatBoxType) {
 	}, [ourSocket, messageList]);
 
 	return (
-		<div className="border-2 border-black">
-			<div className="text-center color-black font-bold">
+		<div className=" p-2 rounded bg-[url('https://cdn.wallpapersafari.com/46/78/exDpS7.jpg')] text-white ">
+			<div className="text-center font-bold ">
 				<p>Live ChatBox</p>
 			</div>
-			<div className="border-2 border-black">
-				<div className="mess-container">
+			<div className="border-2 border-blue">
+				<div className="overflow-scroll h-64 w-full">
 					{messageList.map((messageContent: MessageData) => {
 						return (
 							<div
-								className="mess"
-								id={username === messageContent.author ? "you" : "other"}
+							className="bg-gradient-to-r to-indigo-500"
+							id={username === messageContent.author ? "you" : "other"}
 							>
 								<div className="mess-cont">
 									<div className="mess-content">
-										<p>{messageContent.message}</p>
+										<p id="author">{messageContent.author}</p>
 									</div>
 									<div className="mess-meta">
-										<p id="time">{messageContent.time}</p>
-										<p id="author">{messageContent.author}</p>
+										{/* <p id="time">{messageContent.time}</p> */}
+										<p>{messageContent.message}</p>
 									</div>
 								</div>
 							</div>
@@ -75,16 +75,17 @@ function ChatBox({ username, room }: ChatBoxType) {
 					})}
 				</div>
 			</div>
-			<div className="footer">
+			<div className="flex items-center">
 				<input
-					type="text"
+					type="text" 
+					className="m-2 flex-5 text-black w-full p-2 border-0 outline-0"
 					value={currentMessage}
 					placeholder="Write Some Thing...."
 					onChange={(event) => {
 						setCurrentMessage(event.target.value);
 					}}
 				/>
-				<button onClick={sendMessage}>&#9658;</button>
+				<button className="flex-1 p-2 rounded w-full bg-emerald-800 " onClick={sendMessage}>send</button>
 			</div>
 		</div>
 	);
