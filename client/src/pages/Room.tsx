@@ -128,7 +128,7 @@ export const Room = () => {
         <Tabs variant="soft-rounded" colorScheme="blue" margin={"auto"}>
           <TabList mb="1em" gap={4}>
             <Tab fontSize="2xl" color="white">
-              Old User
+              Enter Room 
             </Tab>
             <Tab fontSize="2xl" color="white">
               New User

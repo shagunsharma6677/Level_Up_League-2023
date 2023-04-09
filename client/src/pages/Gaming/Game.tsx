@@ -1,15 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Timer from "./Timer";
 import { getDataFromApi } from "./api";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
+import { 
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -19,11 +11,16 @@ import ChatBox from "../ChatBox";
 import axios from "axios";
 // import { ChatBox } from "../../components/ChatBox/ChatBox";
 
-// import dictionaryEn from "dictionary-en";
+// import dictionaryEn from "dictionary-en"; 
+type scoretype = {
+  username: string, 
+  score: string
+} 
 
 const Game = () => {
   const [done, setDone] = useState<boolean>(false);
-  const [start, setStart] = useState<boolean>(false);
+  const [start, setStart] = useState<boolean>(false); 
+  const [winner,setWinner] = useState<scoretype[]>([]); 
   // const initialState=[]
   const toast = useToast();
   const [score, setScore] = useState<number>(0);
@@ -43,10 +40,11 @@ const Game = () => {
 
   if (chatRoom == "2") {
     setStart(true);
-    console.log(start);
+    // console.log(start);
   }
 
-  console.log(chatRoom, "xontext from gaming room", start);
+  console.log(winner); 
+  // console.log(chatRoom, "xontext from gaming room", start);
   useEffect(() => {
     const name = localStorage.getItem("username") || "";
     const Room = localStorage.getItem("room") || "";
@@ -164,7 +162,7 @@ const Game = () => {
           username: username,
           score: score,
         })
-        .then((res) => {
+        .then((res) => { 
           console.log("post", res.data);
         });
     } catch (err) {
@@ -174,6 +172,7 @@ const Game = () => {
   const getscore = () => {
     try {
       axios.get("http://localhost:3001/score").then((res) => {
+        setWinner(res.data); 
         console.log("result", res.data);
       });
     } catch (err) {
@@ -198,11 +197,15 @@ const Game = () => {
   // };
 
   return (
-    <div className="flex w-full min-h-screen">
+    <div className="flex w-full min-h-screen ">
       {start == false ? (
         <div className="w-4/5 border-black bg-cover bg-center bg-no-repeat bg-[url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNTg0M2JiMDNmYTJiOWZiZDU4ODk4NDg0MWM2Yjk5YmEyYTk1OGJiOCZjdD1n/BHNfhgU63qrks/giphy.gif')] grid p-10 ">
-          <div className="bg-gradient-to-r from-indigo-500 p-6 ">
-            Wating for Other Player...{" "}
+          <div className="bg-gradient-to-r from-indigo-500 p-6 flex justify-center items-center m-auto text-center">
+            Wating for Other Player... 
+            <br /> 
+            <div className="mix-blend-color-burn w-9/12">
+              <img src="https://icons8.com/preloaders/preloaders/1486/Hourglass.gif" alt="" />
+            </div>
           </div>
         </div>
       ) : (
@@ -288,15 +291,16 @@ const Game = () => {
         </div>
       )}
       <div className="w-1/5 border-red-800 bg-[url('https://media1.giphy.com/media/tNt8ZSSrwNHzQcPABV/giphy.webp?cid=ecf05e47vc3hc3bylzxufiiykdoa7ix8iqn4cvtzagbdz12j&rid=giphy.webp&ct=g')] p-2">
-        <button disabled={start === true} onClick={handleStart}>
+        <button disabled={start === true} onClick={handleStart} className="mb-2 w-full text-center bg-orange-400 text-white font-bold">
           {start ? "" : "Start"}
         </button>
         {<ChatBox username={username} room={room} />}
-        <div className="box-border h-32 w-full my-2 p-4 border-4">
-          Winner of the game:
-        </div>
-
-        <button onClick={getscore}>Shoe Result</button>
+        <button onClick={getscore} className="mt-2 w-full text-center bg-orange-400 text-white font-bold" >Show Result</button>
+        <div className="box-border h-32 w-full p-2 mt-2 border-2 ">
+          Winner: { winner[0]?.username} 
+          <br />
+          Looser: {winner[1]?.username}  
+        </div> 
       </div>
     </div>
   );

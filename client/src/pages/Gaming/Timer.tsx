@@ -6,7 +6,7 @@ type Timetype ={
 }
 
 const Timer = (props:Timetype) => { 
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(90);
   // const { isOpen, onOpen, onClose } = useDisclosure() ; 
 
   useEffect(() => {
